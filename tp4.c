@@ -13,7 +13,7 @@ typedef struct Tarea{
 
 typedef struct Nodo{
     Tarea T;
-    Nodo *Siguiente;
+    struct Nodo *Siguiente;
 } Nodo;
 
 Nodo * crearListaVacia(){
@@ -47,6 +47,7 @@ int main(){
         printf("Ingrese la opcion que quiere: \n");
         printf("1- Si quiere agregar tarea \n");
         printf("0- Si quiere finalizar la carga \n");
+        scanf("%d",&opcion);
 
         if (opcion == 1)
         {
@@ -64,7 +65,7 @@ int main(){
 
         }
         
-    } while (opcion == 0);
+    } while (opcion != 0);
     
     
 
