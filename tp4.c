@@ -32,13 +32,51 @@ void insertarNodo(Nodo ** primero, Nodo * nNodo){
     *primero = nNodo;
 }
 
+void mostrarLista(Nodo * lista){
+    
+    if (lista == NULL)
+    {
+        printf("Lista vacia\n");
+        return;
+    }
+    
+    Nodo * aux = lista;
+    while (aux != NULL)
+    {
+        printf("ID: %d | Duracion: %d min | Desc: %s\n",aux->T.TareaID,aux->T.Duracion,aux->T.Descripcion);
+        aux = aux->Siguiente;
+    }
+    
+}
+
+void cargarTarea(Nodo ** pendientes){
+
+    Tarea tareita;
+    char buff[100];
+
+    tareita.TareaID = contador++;
+    tareita.Duracion = rand() % 91 + 10;
+    
+    printf("\nIngrese descripcion de la tarea: ");
+    scanf("%s",buff);
+    tareita.Descripcion = (char *) malloc((strlen(buff) + 1) * sizeof(char));
+    strcpy(tareita.Descripcion, buff);
+
+    Nodo * nuevoNodo = crearNodo(tareita);
+    insertarNodo(pendientes,nuevoNodo);
+    printf("Tarea cargada con ID %d. \n\n",tareita.TareaID);
+}
+
 int main(){
 
-    Nodo * start;
+    Nodo * pendiente;
+    Nodo * realizada;
     Tarea * tareita;
     char buff[50];
+    srand(time(NULL));
 
-    start = crearListaVacia();
+    pendiente = crearListaVacia();
+    realizada = crearListaVacia();
     
     printf("\n---MENU---\n");
     int opcion;
@@ -46,23 +84,24 @@ int main(){
     {
         printf("Ingrese la opcion que quiere: \n");
         printf("1- Si quiere agregar tarea \n");
-        printf("0- Si quiere finalizar la carga \n");
+        printf("3- Mostrar lista \n");
+        printf("0- Salir\n");
         scanf("%d",&opcion);
 
-        if (opcion == 1)
+        switch (opcion)
         {
-            tareita = (Tarea *) malloc(sizeof(Tarea));
-            tareita->TareaID = contador++;
-            tareita->Duracion = rand() % 91;
-
-            printf("\nIngrese descripcion de la tarea: ");
-            scanf("%s",buff);
-            tareita->Descripcion = (char *) malloc((strlen(buff) + 1) * sizeof(char));
-            strcpy(tareita->Descripcion, buff);
-
-            Nodo * nuevoNodo = crearNodo(*tareita);
-            insertarNodo(start,nuevoNodo);
-
+            case 1:
+                cargarTarea(&pendiente);
+            break;
+            case 2:
+            break;
+            case 3:
+                printf("\nLista de tareas pendientes: \n");
+                mostrarLista(pendiente);
+            break;
+        
+        default:
+            break;
         }
         
     } while (opcion != 0);
