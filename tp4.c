@@ -3,7 +3,7 @@
 #include <time.h>
 #include <string.h>
 
-int contador = 1000;
+int contador = 1000; //el tp me pide inicializar el contador para id en 1000 y lo hago como variable global
 
 typedef struct Tarea{
     int TareaID;//Numérico autoincremental comenzando en 1000
@@ -44,7 +44,7 @@ void mostrarLista(Nodo * lista){
     while (aux != NULL)
     {
         printf("ID: %d | Duracion: %d min | Desc: %s\n",aux->T.TareaID,aux->T.Duracion,aux->T.Descripcion);
-        aux = aux->Siguiente;
+        aux = aux->Siguiente; //voy avanzando
     }
     
 }
@@ -65,6 +65,17 @@ void cargarTarea(Nodo ** pendientes){
     Nodo * nuevoNodo = crearNodo(tareita);
     insertarNodo(pendientes,nuevoNodo);
     printf("Tarea cargada con ID %d. \n\n",tareita.TareaID);
+}
+
+void liberarLista(Nodo * lista){
+    Nodo * actual = lista;
+    while(actual != NULL){
+        Nodo * siguiente = actual->Siguiente;
+        free(actual->T.Descripcion);
+        free(actual);
+        actual = siguiente;
+
+    }
 }
 
 int main(){
@@ -106,6 +117,8 @@ int main(){
         
     } while (opcion != 0);
     
+    liberarLista(pendiente);
+    liberarLista(realizada);
     
 
     
